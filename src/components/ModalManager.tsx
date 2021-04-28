@@ -1,12 +1,10 @@
-import React from "react";
-import NewGridModal from "./NewGridModal";
+import React from 'react';
+import NewGridModal from './NewGridModal';
 
-const ModalManager = () => {
-  return (
-    <>
-      <NewGridModal />
-    </>
-  );
-};
+const ModalManager = () => (
+  <>
+    <NewGridModal />
+  </>
+);
 
 export default ModalManager;

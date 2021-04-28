@@ -1,5 +1,5 @@
-import { Box } from "@chakra-ui/layout";
-import React, { useEffect } from "react";
+import { Box } from '@chakra-ui/layout';
+import React, { useEffect } from 'react';
 
 export interface Entity {
   name: string;
@@ -44,5 +44,5 @@ type GridProps = {
 export const GridComponent = ({ grid }: GridProps) => {
   useEffect(() => {}, []);
 
-  return <Box></Box>;
+  return <Box />;
 };

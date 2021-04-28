@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState } from 'react';
 import {
   Modal,
   ModalBody,
@@ -7,33 +7,35 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-} from "@chakra-ui/modal";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { newGridModalOpenState, savedGridsState } from "../atoms/grids";
+} from '@chakra-ui/modal';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-} from "@chakra-ui/form-control";
-import { Input } from "@chakra-ui/input";
-import { Button } from "@chakra-ui/button";
-import { Field, FieldProps, Form, Formik } from "formik";
-import { v4 as uuidv4 } from "uuid";
-import { Cell, Grid } from "./Grid";
-import { Redirect } from "react-router";
+} from '@chakra-ui/form-control';
+import { Input } from '@chakra-ui/input';
+import { Button } from '@chakra-ui/button';
+import {
+  Field, FieldProps, Form, Formik,
+} from 'formik';
+import { v4 as uuidv4 } from 'uuid';
+import { Redirect } from 'react-router';
+import { Cell, Grid } from './Grid';
+import { newGridModalOpenState, savedGridsState } from '../atoms/grids';
 
 interface FormValues {
   name: string;
 }
 
-const width = 10;
-const height = 10;
+const WIDTH = 10;
+const HEIGHT = 10;
 
 const createCells = (width: number, height: number): Cell[] => {
   const cells: Cell[] = [];
 
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
+  for (let y = 0; y < height; y + 1) {
+    for (let x = 0; x < width; x + 1) {
       cells.push({
         location: {
           x,
@@ -56,7 +58,7 @@ const NewGridModal = () => {
   const initialRef = useRef();
 
   const initialValues: FormValues = {
-    name: "",
+    name: '',
   };
 
   const onClose = () => {
@@ -67,7 +69,7 @@ const NewGridModal = () => {
     const id = uuidv4();
 
     const grid: Grid = {
-      cells: createCells(width, height),
+      cells: createCells(WIDTH, HEIGHT),
       name: data.name,
       id,
     };
@@ -84,7 +86,7 @@ const NewGridModal = () => {
   const validateName = (value: string) => {
     let error;
     if (!value) {
-      error = "Yo, the name is kinda required.";
+      error = 'Yo, the name is kinda required.';
     }
 
     return error;

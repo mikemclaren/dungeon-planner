@@ -1,28 +1,28 @@
-import { Button } from "@chakra-ui/button";
-import Icon from "@chakra-ui/icon";
-import { Box, Flex, Heading } from "@chakra-ui/layout";
+import React, { useEffect, useRef, useState } from 'react';
+import { Button } from '@chakra-ui/button';
+import Icon from '@chakra-ui/icon';
+import { Box, Flex, Heading } from '@chakra-ui/layout';
 import {
   AlertDialog,
   AlertDialogBody,
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
-} from "@chakra-ui/modal";
-import { useToast } from "@chakra-ui/toast";
-import React, { useEffect, useRef, useState } from "react";
-import { HotKeys } from "react-hotkeys";
-import { GiDoorway, GiSave, GiTrashCan } from "react-icons/gi";
-import { Redirect, useParams } from "react-router";
-import { useRecoilValue } from "recoil";
-import { savedGridsState } from "../atoms/grids";
-import { Grid } from "./Grid";
+} from '@chakra-ui/modal';
+import { useToast } from '@chakra-ui/toast';
+import { HotKeys } from 'react-hotkeys';
+import { GiDoorway, GiSave, GiTrashCan } from 'react-icons/gi';
+import { Redirect, useParams } from 'react-router';
+import { useRecoilValue } from 'recoil';
+import { savedGridsState } from '../atoms/grids';
+import { Grid } from './Grid';
 
 type Params = {
   gridId: string;
 };
 
 const keyMap = {
-  SAVE: "command+s",
+  SAVE: 'command+s',
 };
 
 const GridScreen = () => {
@@ -47,11 +47,11 @@ const GridScreen = () => {
 
   const saveGrid = () => {
     toast({
-      title: "Zone saved.",
-      description: "Totally saved your awesome zone.",
-      status: "success",
+      title: 'Zone saved.',
+      description: 'Totally saved your awesome zone.',
+      status: 'success',
       isClosable: true,
-      position: "top",
+      position: 'top',
     });
   };
 
@@ -75,7 +75,9 @@ const GridScreen = () => {
           <HotKeys keyMap={keyMap} handlers={handlers}>
             <Flex width="100%">
               <Heading flex={1}>
-                <Icon as={GiDoorway} /> {grid.name}
+                <Icon as={GiDoorway} />
+                {' '}
+                {grid.name}
               </Heading>
               <Box flex={1} textAlign="right">
                 <Button

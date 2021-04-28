@@ -1,19 +1,19 @@
-const rules = require("./webpack.rules");
-const plugins = require("./webpack.plugins");
-const path = require("path");
+const path = require('path');
+const rules = require('./webpack.rules');
+const plugins = require('./webpack.plugins');
 
 rules.push({
   test: /\.css$/,
-  use: [{ loader: "style-loader" }, { loader: "css-loader" }],
+  use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
 });
 
 module.exports = {
   module: {
     rules,
   },
-  plugins: plugins,
+  plugins,
   resolve: {
-    extensions: [".js", ".ts", ".jsx", ".tsx", ".css"],
-    modules: [path.resolve(__dirname, "node_modules"), "node_modules"],
+    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
+    modules: [path.resolve(__dirname, 'node_modules'), 'node_modules'],
   },
 };

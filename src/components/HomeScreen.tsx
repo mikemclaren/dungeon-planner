@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Box,
   Button,
@@ -8,15 +8,13 @@ import {
   HStack,
   Icon,
   Link,
-  VStack,
-} from "@chakra-ui/react";
-import { GiDoorway, GiDramaMasks } from "react-icons/gi";
-import { Link as RouterLink } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { newGridModalOpenState, savedGridsState } from "../atoms/grids";
-import NewGridModal from "./NewGridModal";
+} from '@chakra-ui/react';
+import { GiDoorway, GiDramaMasks } from 'react-icons/gi';
+import { Link as RouterLink } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { newGridModalOpenState, savedGridsState } from '../atoms/grids';
 
-import { Grid } from "./Grid";
+import { Grid } from './Grid';
 
 export function HomeScreen() {
   const grids = useRecoilValue(savedGridsState);
@@ -30,7 +28,9 @@ export function HomeScreen() {
     <Center>
       <Box maxWidth="container.xl" width="90%" padding="2em">
         <Heading marginBottom="1em">
-          Hello. 👋 {grids.length > 0 && "We've saved a few plans of yours."}
+          Hello. 👋
+          {' '}
+          {grids.length > 0 && "We've saved a few plans of yours."}
         </Heading>
         <Flex width="100%" marginBottom="12">
           <HStack flex={1}>
