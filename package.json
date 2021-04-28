@@ -114,6 +114,6 @@
     "uuid": "^8.3.2"
   },
   "lint-staged": {
-    "*.ts": "eslint --cache --fix"
+    "*.(t|j)sx?": "eslint --cache --fix"
   }
 }
