@@ -1,8 +1,8 @@
-import { ColorModeScript } from '@chakra-ui/color-mode';
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import AppRouter from './components/AppRouter';
-import theme from './theme';
+import { ColorModeScript } from "@chakra-ui/color-mode";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import AppRouter from "./components/AppRouter";
+import theme from "./theme";
 
 function render() {
   ReactDOM.render(
@@ -10,7 +10,8 @@ function render() {
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <AppRouter />
     </>,
-  document.getElementById("root"));
+    document.getElementById("root")
+  );
 }
 
 declare let module: { hot: any };
@@ -24,7 +25,8 @@ if (module.hot) {
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <NewApp />
       </>,
-    document.getElementById("root"));
+      document.getElementById("root")
+    );
   });
 }
 

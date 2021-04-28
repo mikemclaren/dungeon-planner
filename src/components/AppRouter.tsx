@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
 import { Box, ChakraProvider } from "@chakra-ui/react";
-import { RecoilRoot } from 'recoil';
+import { RecoilRoot } from "recoil";
 
-import HomeScreen from './HomeScreen';
-import GridScreen from './GridScreen';
+import HomeScreen from "./HomeScreen";
+import GridScreen from "./GridScreen";
 
-import theme from '../theme';
-import ModalManager from './ModalManager';
+import theme from "../theme";
+import ModalManager from "./ModalManager";
 
 const AppRouter = () => {
   return (
