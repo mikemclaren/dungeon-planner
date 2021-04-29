@@ -21,7 +21,7 @@ import {
 } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
 import { Redirect } from 'react-router';
-import { Cell, Grid } from './Grid';
+import { Grid } from './Grid';
 import { newGridModalOpenState, savedGridsState } from '../atoms/grids';
 
 interface FormValues {
@@ -30,24 +30,6 @@ interface FormValues {
 
 const WIDTH = 10;
 const HEIGHT = 10;
-
-const createCells = (width: number, height: number): Cell[] => {
-  const cells: Cell[] = [];
-
-  for (let y = 0; y < height; y + 1) {
-    for (let x = 0; x < width; x + 1) {
-      cells.push({
-        location: {
-          x,
-          y,
-        },
-        entity: null,
-      });
-    }
-  }
-
-  return cells;
-};
 
 const NewGridModal = () => {
   const [redirectToGrid, setRedirectToGrid] = useState<string>(null);
@@ -69,9 +51,12 @@ const NewGridModal = () => {
     const id = uuidv4();
 
     const grid: Grid = {
-      cells: createCells(WIDTH, HEIGHT),
+      width: WIDTH,
+      height: HEIGHT,
       name: data.name,
       id,
+      entities: [],
+      objects: [],
     };
 
     setSavedGrids((grids: Grid[]) => {

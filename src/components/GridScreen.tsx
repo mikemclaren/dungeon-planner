@@ -15,7 +15,7 @@ import { GiDoorway, GiSave, GiTrashCan } from 'react-icons/gi';
 import { Redirect, useParams } from 'react-router';
 import { useRecoilValue } from 'recoil';
 import { savedGridsState } from '../atoms/grids';
-import { Grid } from './Grid';
+import { Grid, GridComponent } from './Grid';
 
 type Params = {
   gridId: string;
@@ -98,6 +98,10 @@ const GridScreen = () => {
               </Box>
             </Flex>
 
+            <Flex width="100%">
+              <GridComponent grid={grid} />
+            </Flex>
+
             <AlertDialog
               isOpen={deleteModalOpen}
               leastDestructiveRef={cancelRef}
@@ -107,7 +111,7 @@ const GridScreen = () => {
                 <AlertDialogHeader>Delete Zone</AlertDialogHeader>
 
                 <AlertDialogBody>
-                  Are you sure? You can't undo this action. Like I don't put it
+                  Are you sure? You can&apos;t undo this action. Like I don&apos;t put it
                   a notebook or anything for safe keeping.
                 </AlertDialogBody>
 
