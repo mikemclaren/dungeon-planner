@@ -102,6 +102,7 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/uuid": "^8.3.0",
     "electron-squirrel-startup": "^1.0.0",
+    "eslint-import-resolver-typescript": "^2.4.0",
     "formik": "^2.2.6",
     "framer-motion": "^4",
     "prop-types": "^15.7.2",
