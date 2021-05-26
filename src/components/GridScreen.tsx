@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '@chakra-ui/button';
 import Icon from '@chakra-ui/icon';
-import { Box, Flex, Heading } from '@chakra-ui/layout';
+import {
+  Box, Flex, Heading, Text,
+} from '@chakra-ui/layout';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -11,11 +13,16 @@ import {
 } from '@chakra-ui/modal';
 import { useToast } from '@chakra-ui/toast';
 import { HotKeys } from 'react-hotkeys';
-import { GiDoorway, GiSave, GiTrashCan } from 'react-icons/gi';
+import {
+  GiDoorway, GiSave, GiTrashCan,
+} from 'react-icons/gi';
 import { Redirect, useParams } from 'react-router';
 import { useRecoilValue } from 'recoil';
+import { useColorModeValue } from '@chakra-ui/color-mode';
+
 import { savedGridsState } from '../atoms/grids';
 import { Grid, GridComponent } from './Grid';
+import ToolMenu, { Tools } from './ToolMenu';
 
 type Params = {
   gridId: string;
@@ -31,6 +38,7 @@ const GridScreen = () => {
   const [grid, setGrid] = useState<Grid>(null);
   const [redirectToHome, setRedirectToHome] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [tool, setTool] = useState<Tools>(null);
 
   const toast = useToast();
   const cancelRef = useRef();
@@ -63,6 +71,10 @@ const GridScreen = () => {
     setDeleteModalOpen(false);
   };
 
+  const selectTool = (t: Tools) => () => {
+    setTool(t);
+  };
+
   const handlers = {
     SAVE: saveGrid,
   };
@@ -73,19 +85,28 @@ const GridScreen = () => {
       {grid && (
         <Box>
           <HotKeys keyMap={keyMap} handlers={handlers}>
-            <Flex width="100%">
+            <Flex left="0" top="0" width="100%" position="fixed" padding="2em" bg={useColorModeValue('white', 'gray.700')} zIndex="sticky" boxShadow="md">
               <Heading flex={1}>
                 <Icon as={GiDoorway} />
                 {' '}
                 {grid.name}
               </Heading>
+              <Box flex={2}>
+                <ToolMenu selectTool={selectTool} />
+
+                {tool && (
+                <Box boxShadow="inner">
+                  <Text>{tool}</Text>
+                </Box>
+                )}
+              </Box>
               <Box flex={1} textAlign="right">
                 <Button
                   onClick={saveGrid}
                   leftIcon={<Icon as={GiSave} />}
                   colorScheme="green"
                 >
-                  Save Zone
+                  Save
                 </Button>
                 <Button
                   marginLeft="8"
@@ -93,13 +114,13 @@ const GridScreen = () => {
                   leftIcon={<Icon as={GiTrashCan} />}
                   colorScheme="red"
                 >
-                  Delete Zone
+                  Delete
                 </Button>
               </Box>
             </Flex>
 
-            <Flex width="100%">
-              <GridComponent grid={grid} />
+            <Flex width="100%" marginTop="5em">
+              <GridComponent grid={grid} updateGrid={setGrid} />
             </Flex>
 
             <AlertDialog

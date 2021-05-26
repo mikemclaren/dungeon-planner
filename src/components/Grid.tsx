@@ -1,7 +1,12 @@
 import {
-  Box, BoxProps, Flex, Text,
+  Box, BoxProps, Center, Flex, Text,
 } from '@chakra-ui/layout';
 import React, { FunctionComponent, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { IconButton } from '@chakra-ui/button';
+import Icon from '@chakra-ui/icon';
+import { AiOutlinePlus } from 'react-icons/ai';
+import { useColorModeValue } from '@chakra-ui/color-mode';
 
 export interface GridObject {
   type: string;
@@ -31,10 +36,14 @@ export interface Grid {
 
 type GridProps = {
   grid: Grid;
-  saveGrid?: (grid: Grid) => void;
+  updateGrid?: (grid: Grid) => void;
   selectedPoint?: Point;
   zoom?: number;
+  selectPoint?: (point: Point) => void;
 };
+
+const ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const convertNumToAlpha = (num: number): string => ALPHA[num];
 
 const CellBoxStyleProps = {
   w: '5rem',
@@ -46,25 +55,58 @@ const CellBoxStyleProps = {
   flex: 1,
 };
 
-const CellBox:FunctionComponent<BoxProps> = ({ children }) => (
+const CellBox: FunctionComponent<BoxProps> = ({ children }) => (
   <Box {...CellBoxStyleProps} boxSizing="border-box">
-    {children}
+    <Center w="5rem" h="5rem">
+      {children}
+    </Center>
   </Box>
 );
 
-type CellProps = {
-  x: number,
-  y: number,
+CellBox.propTypes = {
+  children: PropTypes.element.isRequired,
 };
 
-const CellComponent:FunctionComponent<CellProps> = ({ x, y }) => (
-  <Box {...CellBoxStyleProps} boxSizing="border-box" borderRightWidth=".1rem" borderBottomWidth=".1rem" borderLeftWidth={`${x === 0 || y === 0 ? 0.1 : 0}rem`} borderTopWidth={`${x === 0 || y === 0 ? 0.1 : 0}rem`}>
-    <Text fontSize="md">
-      {x}
-      {y}
-    </Text>
+type CellProps = {
+  x: number;
+  y: number;
+};
+
+const CellComponent: FunctionComponent<CellProps> = ({ x, y }) => (
+  <Box
+    {...CellBoxStyleProps}
+    boxSizing="border-box"
+    borderColor="gray.400"
+    borderRightWidth=".1em"
+    borderBottomWidth=".1em"
+    borderLeftWidth={`${x === 0 ? 0.1 : 0}em`}
+    borderTopWidth={`${y === 0 ? 0.1 : 0}em`}
+    cursor="pointer"
+    textColor="gray.300"
+    _hover={{
+      bgColor: useColorModeValue('gray.300', 'gray.700'),
+      textColor: 'gray.100',
+    }}
+  >
+    <Center w="5rem" h="5rem" position="relative">
+      <Text
+        fontSize="sm"
+        fontWeight="semibold"
+        position="absolute"
+        bottom="0.2em"
+        right="0.4em"
+      >
+        {convertNumToAlpha(x)}
+        {y}
+      </Text>
+    </Center>
   </Box>
 );
+
+CellComponent.propTypes = {
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired,
+};
 
 /**
  * This component should only be a pass-through / display component;
@@ -72,8 +114,18 @@ const CellComponent:FunctionComponent<CellProps> = ({ x, y }) => (
  * This is so that this component can be used in any situation where
  * the Grid is needed without complicating its functionality.
  */
-export const GridComponent:FunctionComponent<GridProps> = ({ grid }) => {
+export const GridComponent: FunctionComponent<GridProps> = ({ 
+  grid, updateGrid, selectedPoint, selectPoint,
+}) => {
   useEffect(() => {}, []);
+
+  const addColumnToGrid = () => {
+    updateGrid({ ...grid, width: grid.width + 1 });
+  };
+
+  const addRowToGrid = () => {
+    updateGrid({ ...grid, height: grid.height + 1 });
+  };
 
   return (
     <Box position="relative" maxH="100vh" maxW="100vw">
@@ -81,37 +133,85 @@ export const GridComponent:FunctionComponent<GridProps> = ({ grid }) => {
         <CellBox />
         {Array.from({ length: grid.width }, (_v, x) => (
           <CellBox>
-            <Text fontSize="md">{x}</Text>
+            <Text fontSize="xl" fontWeight="extrabold" color="teal">
+              {convertNumToAlpha(x)}
+            </Text>
           </CellBox>
         ))}
+        <CellBox>
+          <IconButton colorScheme="teal" size="lg" icon={<Icon as={AiOutlinePlus} />} aria-label="Add Column" onClick={addColumnToGrid} />
+        </CellBox>
       </Flex>
 
-      <Flex>
-        <Box flex={1} w="5rem">
+      <Flex justifyItems="flex-start">
+        <Box flex={1} w="5em">
           {Array.from({ length: grid.height }, (_w, y) => (
             <CellBox>
-              <Text fontSize="md">{y}</Text>
+              <Text fontSize="xl" fontWeight="extrabold" color="teal">
+                {y}
+              </Text>
             </CellBox>
           ))}
+          <CellBox>
+            <IconButton colorScheme="teal" size="lg" icon={<Icon as={AiOutlinePlus} />} aria-label="Add Row" onClick={addRowToGrid} />
+          </CellBox>
         </Box>
 
         <Flex>
           {Array.from({ length: grid.width }, (_v, x) => (
             <Flex display="inline-block">
-              {Array.from({ length: grid.height }, (_w, y) => <CellComponent x={x} y={y} />)}
+              {Array.from({ length: grid.height }, (_w, y) => (
+                <CellComponent x={x} y={y} selectPoint={selectPoint} />
+              ))}
             </Flex>
           ))}
         </Flex>
+
+        <Box flex={1} w="5em" />
       </Flex>
     </Box>
   );
 };
 
 GridComponent.defaultProps = {
-  saveGrid: () => {},
+  updateGrid: () => {},
   selectedPoint: {
     x: null,
     y: null,
   },
   zoom: 1,
+  selectPoint: () => {},
+};
+
+GridComponent.propTypes = {
+  grid: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    entities: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      alive: PropTypes.bool,
+      almostDead: PropTypes.bool,
+      location: PropTypes.shape({
+        x: PropTypes.number.isRequired,
+        y: PropTypes.number.isRequired,
+      }).isRequired,
+    })),
+    objects: PropTypes.arrayOf(PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      location: PropTypes.shape({
+        x: PropTypes.number.isRequired,
+        y: PropTypes.number.isRequired,
+      }).isRequired,
+    })),
+  }).isRequired,
+  updateGrid: PropTypes.func,
+  zoom: PropTypes.number,
+  selectedPoint: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+  }),
+  selectPoint: PropTypes.func,
 };
