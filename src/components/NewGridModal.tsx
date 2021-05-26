@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { ReactElement, useRef, useState } from 'react';
 import {
   Modal,
   ModalBody,
@@ -32,7 +32,7 @@ interface FormValues {
 const WIDTH = 10;
 const HEIGHT = 10;
 
-const NewGridModal = () => {
+const NewGridModal = (): ReactElement => {
   const [redirectToGrid, setRedirectToGrid] = useState<string>(null);
   const setModalOpen = useSetRecoilState(modalOpenState);
   const setSavedGrids = useSetRecoilState(savedGridsState);

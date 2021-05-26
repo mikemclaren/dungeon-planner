@@ -2,7 +2,7 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
   Button, Icon, Menu, MenuButton, MenuItem, MenuList, Text,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { GiStoneWall } from 'react-icons/gi';
 
 export enum Tools {
@@ -15,7 +15,7 @@ type ToolMenuProps = {
 
 const ToolMenu = ({
   selectTool,
-}: ToolMenuProps) => (
+}: ToolMenuProps): ReactElement => (
   <Menu>
     <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
       Tools

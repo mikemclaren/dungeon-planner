@@ -112,7 +112,7 @@ const CellComponent: FunctionComponent<CellProps> = ({ x, y, selectPoint }) => {
 };
 
 CellComponent.defaultProps = {
-  selectPoint: () => {},
+  selectPoint: () => null,
 };
 
 CellComponent.propTypes = {
@@ -128,10 +128,8 @@ CellComponent.propTypes = {
  * the Grid is needed without complicating its functionality.
  */
 export const GridComponent: FunctionComponent<GridProps> = ({
-  grid, updateGrid, selectedPoint, selectPoint,
+  grid, updateGrid, selectedPoint, selectPoint, zoom,
 }) => {
-  useEffect(() => {}, []);
-
   const addColumnToGrid = () => {
     updateGrid({ ...grid, width: grid.width + 1 });
   };
@@ -187,13 +185,13 @@ export const GridComponent: FunctionComponent<GridProps> = ({
 };
 
 GridComponent.defaultProps = {
-  updateGrid: () => {},
+  updateGrid: () => null,
   selectedPoint: {
     x: null,
     y: null,
   },
   zoom: 1,
-  selectPoint: () => {},
+  selectPoint: () => null,
 };
 
 GridComponent.propTypes = {

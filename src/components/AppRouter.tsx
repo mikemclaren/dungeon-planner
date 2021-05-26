@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import { Box, ChakraProvider } from '@chakra-ui/react';
 import { RecoilRoot } from 'recoil';
@@ -9,7 +9,7 @@ import GridScreen from './GridScreen';
 import theme from '../theme';
 import ModalManager from './ModalManager';
 
-const AppRouter = () => (
+const AppRouter = ():ReactElement => (
   <ChakraProvider theme={theme}>
     <HashRouter>
       <Box>

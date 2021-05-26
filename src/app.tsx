@@ -18,7 +18,7 @@ declare let module: { hot: any };
 
 if (module.hot) {
   module.hot.accept('./components/AppRouter', () => {
-    // eslint-disable-next-line global-require
+    // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
     const NewApp = require('./components/AppRouter').default;
 
     ReactDOM.render(

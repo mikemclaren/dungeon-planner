@@ -1,4 +1,4 @@
-import React, { ElementType } from 'react';
+import React, { ElementType, ReactElement } from 'react';
 import {
   Box,
   Button,
@@ -18,7 +18,7 @@ import { savedGridsState } from '../atoms/grids';
 import { Grid } from './Grid';
 import { ModalTypes, modalOpenState } from '../atoms/modals';
 
-export function HomeScreen() {
+export const HomeScreen = ():ReactElement => {
   const grids = useRecoilValue(savedGridsState);
   const campaigns = useRecoilValue(savedCampaignsState);
   const [, setModalOpen] = useRecoilState(modalOpenState);
@@ -82,6 +82,6 @@ export function HomeScreen() {
       </Box>
     </Center>
   );
-}
+};
 
 export default HomeScreen;

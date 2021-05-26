@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useRecoilValue } from 'recoil';
 import { ModalComponents, modalOpenState } from '../atoms/modals';
 
-const ModalManager = () => {
+const ModalManager = (): ReactElement => {
   const modalComponentOpen = useRecoilValue(modalOpenState);
 
   return (

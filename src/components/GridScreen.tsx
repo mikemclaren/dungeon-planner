@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  ReactElement, useEffect, useRef, useState,
+} from 'react';
 import { Button } from '@chakra-ui/button';
 import Icon from '@chakra-ui/icon';
 import {
@@ -32,13 +34,14 @@ const keyMap = {
   SAVE: 'command+s',
 };
 
-const GridScreen = () => {
+const GridScreen = ():ReactElement => {
   const params: Params = useParams();
   const grids: Grid[] = useRecoilValue(savedGridsState);
   const [grid, setGrid] = useState<Grid>(null);
   const [redirectToHome, setRedirectToHome] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [tool, setTool] = useState<Tools>(null);
+  const bgColor = useColorModeValue('white', 'gray.700');
 
   const toast = useToast();
   const cancelRef = useRef();
@@ -85,7 +88,7 @@ const GridScreen = () => {
       {grid && (
         <Box>
           <HotKeys keyMap={keyMap} handlers={handlers}>
-            <Flex left="0" top="0" width="100%" position="fixed" padding="2em" bg={useColorModeValue('white', 'gray.700')} zIndex="sticky" boxShadow="md">
+            <Flex left="0" top="0" width="100%" position="fixed" padding="2em" bg={bgColor} zIndex="sticky" boxShadow="md">
               <Heading flex={1}>
                 <Icon as={GiDoorway} />
                 {' '}
