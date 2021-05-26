@@ -8,7 +8,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/modal';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import {
   FormControl,
   FormErrorMessage,
@@ -22,7 +22,8 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { Redirect } from 'react-router';
 import { Grid } from './Grid';
-import { newGridModalOpenState, savedGridsState } from '../atoms/grids';
+import { savedGridsState } from '../atoms/grids';
+import { modalOpenState } from '../atoms/modals';
 
 interface FormValues {
   name: string;
@@ -33,8 +34,7 @@ const HEIGHT = 10;
 
 const NewGridModal = () => {
   const [redirectToGrid, setRedirectToGrid] = useState<string>(null);
-  const newGridModalOpen = useRecoilValue(newGridModalOpenState);
-  const setNewGridModalOpen = useSetRecoilState(newGridModalOpenState);
+  const setModalOpen = useSetRecoilState(modalOpenState);
   const setSavedGrids = useSetRecoilState(savedGridsState);
 
   const initialRef = useRef();
@@ -44,7 +44,7 @@ const NewGridModal = () => {
   };
 
   const onClose = () => {
-    setNewGridModalOpen(false);
+    setModalOpen(null);
   };
 
   const createNewZone = (data: FormValues) => {
@@ -82,7 +82,7 @@ const NewGridModal = () => {
       {redirectToGrid && <Redirect to={`/grids/${redirectToGrid}`} />}
 
       <Modal
-        isOpen={newGridModalOpen}
+        isOpen
         onClose={onClose}
         initialFocusRef={initialRef}
       >

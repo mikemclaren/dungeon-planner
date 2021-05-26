@@ -1,10 +1,15 @@
 import React from 'react';
-import NewGridModal from './NewGridModal';
+import { useRecoilValue } from 'recoil';
+import { ModalComponents, modalOpenState } from '../atoms/modals';
 
-const ModalManager = () => (
-  <>
-    <NewGridModal />
-  </>
-);
+const ModalManager = () => {
+  const modalComponentOpen = useRecoilValue(modalOpenState);
+
+  return (
+    <>
+      {modalComponentOpen && React.createElement(ModalComponents[modalComponentOpen])}
+    </>
+  );
+};
 
 export default ModalManager;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ElementType } from 'react';
 import {
   Box,
   Button,
@@ -9,19 +9,22 @@ import {
   Icon,
   Link,
 } from '@chakra-ui/react';
-import { GiDoorway, GiDramaMasks } from 'react-icons/gi';
+import { GiCampfire, GiDoorway, GiDramaMasks } from 'react-icons/gi';
 import { Link as RouterLink } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { newGridModalOpenState, savedGridsState } from '../atoms/grids';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { savedCampaignsState } from '../atoms/campaigns';
+import { savedGridsState } from '../atoms/grids';
 
 import { Grid } from './Grid';
+import { ModalTypes, modalOpenState } from '../atoms/modals';
 
 export function HomeScreen() {
   const grids = useRecoilValue(savedGridsState);
-  const setNewGridModalOpen = useSetRecoilState(newGridModalOpenState);
+  const campaigns = useRecoilValue(savedCampaignsState);
+  const [, setModalOpen] = useRecoilState(modalOpenState);
 
-  const openNewGridModal = () => {
-    setNewGridModalOpen(true);
+  const openModal = (c: ModalTypes) => () => {
+    setModalOpen(c);
   };
 
   return (
@@ -35,8 +38,14 @@ export function HomeScreen() {
         <Flex width="100%" marginBottom="12">
           <HStack flex={1}>
             <Button
+              leftIcon={<Icon as={GiCampfire} />}
+              onClick={openModal(ModalTypes.NewCampaign)}
+            >
+              Create New Campaign
+            </Button>
+            <Button
               leftIcon={<Icon as={GiDoorway} />}
-              onClick={openNewGridModal}
+              onClick={openModal(ModalTypes.NewGrid)}
             >
               Create New Play Zone
             </Button>

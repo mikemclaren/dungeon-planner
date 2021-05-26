@@ -5,7 +5,4 @@ export const savedGridsState = atom({
   default: [],
 });
 
-export const newGridModalOpenState = atom({
-  key: 'newGridModalOpenState',
-  default: false,
-});
+export default savedGridsState;

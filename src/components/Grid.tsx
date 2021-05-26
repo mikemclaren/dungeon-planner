@@ -70,42 +70,55 @@ CellBox.propTypes = {
 type CellProps = {
   x: number;
   y: number;
+  selectPoint: (point: Point) => void;
 };
 
-const CellComponent: FunctionComponent<CellProps> = ({ x, y }) => (
-  <Box
-    {...CellBoxStyleProps}
-    boxSizing="border-box"
-    borderColor="gray.400"
-    borderRightWidth=".1em"
-    borderBottomWidth=".1em"
-    borderLeftWidth={`${x === 0 ? 0.1 : 0}em`}
-    borderTopWidth={`${y === 0 ? 0.1 : 0}em`}
-    cursor="pointer"
-    textColor="gray.300"
-    _hover={{
-      bgColor: useColorModeValue('gray.300', 'gray.700'),
-      textColor: 'gray.100',
-    }}
-  >
-    <Center w="5rem" h="5rem" position="relative">
-      <Text
-        fontSize="sm"
-        fontWeight="semibold"
-        position="absolute"
-        bottom="0.2em"
-        right="0.4em"
-      >
-        {convertNumToAlpha(x)}
-        {y}
-      </Text>
-    </Center>
-  </Box>
-);
+const CellComponent: FunctionComponent<CellProps> = ({ x, y, selectPoint }) => {
+  const selectCell = () => {
+    selectPoint({ x, y });
+  };
+
+  return (
+    <Box
+      {...CellBoxStyleProps}
+      boxSizing="border-box"
+      borderColor="gray.400"
+      borderRightWidth=".1em"
+      borderBottomWidth=".1em"
+      borderLeftWidth={`${x === 0 ? 0.1 : 0}em`}
+      borderTopWidth={`${y === 0 ? 0.1 : 0}em`}
+      cursor="pointer"
+      textColor="gray.300"
+      _hover={{
+        bgColor: useColorModeValue('gray.300', 'gray.700'),
+        textColor: 'gray.100',
+      }}
+      onClick={selectCell}
+    >
+      <Center w="5rem" h="5rem" position="relative">
+        <Text
+          fontSize="sm"
+          fontWeight="semibold"
+          position="absolute"
+          bottom="0.2em"
+          right="0.4em"
+        >
+          {convertNumToAlpha(x)}
+          {y}
+        </Text>
+      </Center>
+    </Box>
+  );
+};
+
+CellComponent.defaultProps = {
+  selectPoint: () => {},
+};
 
 CellComponent.propTypes = {
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
+  selectPoint: PropTypes.func,
 };
 
 /**
@@ -114,7 +127,7 @@ CellComponent.propTypes = {
  * This is so that this component can be used in any situation where
  * the Grid is needed without complicating its functionality.
  */
-export const GridComponent: FunctionComponent<GridProps> = ({ 
+export const GridComponent: FunctionComponent<GridProps> = ({
   grid, updateGrid, selectedPoint, selectPoint,
 }) => {
   useEffect(() => {}, []);
@@ -184,24 +197,24 @@ GridComponent.defaultProps = {
 };
 
 GridComponent.propTypes = {
-  grid: PropTypes.shape({
+  grid: PropTypes.exact({
     name: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    entities: PropTypes.arrayOf(PropTypes.shape({
+    entities: PropTypes.arrayOf(PropTypes.exact({
       name: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired,
       alive: PropTypes.bool,
       almostDead: PropTypes.bool,
-      location: PropTypes.shape({
+      location: PropTypes.exact({
         x: PropTypes.number.isRequired,
         y: PropTypes.number.isRequired,
       }).isRequired,
     })),
-    objects: PropTypes.arrayOf(PropTypes.shape({
+    objects: PropTypes.arrayOf(PropTypes.exact({
       type: PropTypes.string.isRequired,
-      location: PropTypes.shape({
+      location: PropTypes.exact({
         x: PropTypes.number.isRequired,
         y: PropTypes.number.isRequired,
       }).isRequired,
@@ -209,7 +222,7 @@ GridComponent.propTypes = {
   }).isRequired,
   updateGrid: PropTypes.func,
   zoom: PropTypes.number,
-  selectedPoint: PropTypes.shape({
+  selectedPoint: PropTypes.exact({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
   }),
