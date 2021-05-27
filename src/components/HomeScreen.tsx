@@ -8,11 +8,12 @@ import {
   HStack,
   Icon,
   Link,
+  Text,
 } from '@chakra-ui/react';
 import { GiCampfire, GiDoorway, GiDramaMasks } from 'react-icons/gi';
 import { Link as RouterLink } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { savedCampaignsState } from '../atoms/campaigns';
+import { Campaign, savedCampaignsState } from '../atoms/campaigns';
 import { savedGridsState } from '../atoms/grids';
 
 import { Grid } from './Grid';
@@ -56,11 +57,16 @@ export const HomeScreen = ():ReactElement => {
         </Flex>
         <Flex width="100%">
           <Box flex={1}>
-            {grids.length > 0 && (
+            {campaigns.length > 0 && (
               <Heading as="h3" size="md">
-                Your Saved Play Zones
+                Your Saved Campaigns
               </Heading>
             )}
+            {campaigns.map((campaign: Campaign) => (
+              <Box key={campaign.id}>
+                <Text>{campaign.name}</Text>
+              </Box>
+            ))}
             {grids.map((grid: Grid) => (
               <Box key={grid.id}>
                 <Link

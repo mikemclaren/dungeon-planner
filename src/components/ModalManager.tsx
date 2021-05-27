@@ -1,3 +1,4 @@
+import { ScaleFade } from '@chakra-ui/transition';
 import React, { ReactElement } from 'react';
 import { useRecoilValue } from 'recoil';
 import { ModalComponents, modalOpenState } from '../atoms/modals';
@@ -7,7 +8,9 @@ const ModalManager = (): ReactElement => {
 
   return (
     <>
-      {modalComponentOpen && React.createElement(ModalComponents[modalComponentOpen])}
+      <ScaleFade initialScale={0.9} in={!!modalComponentOpen}>
+        {modalComponentOpen && React.createElement(ModalComponents[modalComponentOpen])}
+      </ScaleFade>
     </>
   );
 };
